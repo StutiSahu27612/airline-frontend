@@ -2,6 +2,24 @@
   text-align: center;
 }
 
+body {
+  margin: 0;
+  padding: 0;
+  background-image: url('../public/airline.jpg');
+  background-size: cover; /* Adjust as needed */
+  /* Other background properties can be added here */
+}
+
+li {
+  transition: transform 0.2s, color 0.2s;
+}
+
+li:hover {
+  transform: scale(1.4); /* Adjust the scale factor as needed */
+  
+}
+
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -11,6 +29,16 @@
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+}
+
+
+.input-form{
+  border: 2px solid aqua;
+  width: 500px;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .App-header {
