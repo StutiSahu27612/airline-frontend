@@ -5,13 +5,16 @@ FROM node as build
 WORKDIR /app
 
 # Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+# COPY packag?e*.json ./
 
 # Install dependencies
-RUN npm install 
+# RUN npm install 
 
 # Copy entire appliaction
 COPY . .
+
+# Install dependencies
+RUN npm install
 
 # Build the React app for production
 RUN npm run build
