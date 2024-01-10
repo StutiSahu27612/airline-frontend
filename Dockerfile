@@ -1,32 +1,40 @@
+########### NODE STAGE #################
+
 # Use the official Node.js runtime as the base image
-FROM node as build
+FROM node:latest as build-stage
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
-# COPY packag?e*.json ./
+# Copy package.json to the working directory
+COPY package.json .
 
 # Install dependencies
-# RUN npm install 
+RUN npm install 
 
 # Copy entire appliaction
 COPY . .
 
-# Install dependencies
-RUN npm install
-
 # Build the React app for production
 RUN npm run build
 
+
+########### NGINX STAGE #################
+
 # Use Nginx as the production server
-FROM nginx:alpine
+FROM nginx:1.23-alpine
+
+# Set the working directory in the container
+WORKDIR /usr/share/nginx/html
+
+# Remove default nginx static assest
+RUN rm -rf ./*
 
 # Copy the built React app to Nginx's web server directory
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build-stage /app/build .
 
 # Expose port 80 for the Nginx server
-EXPOSE 80 3000
+# EXPOSE 80 3000
 
 # Start Nginx when the container runs
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT [ "nginx", "-g", "daemon off;" ]
