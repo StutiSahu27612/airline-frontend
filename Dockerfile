@@ -1,33 +1,17 @@
-# Use the official Node.js runtime as the base image
-FROM node:20 as build-stage
+# Use Nginx as the production server
+FROM nginx:latest as prod
 
-# Set the working directory in the container
-WORKDIR /usr/src/app
+# Copy the built React app to Nginx's web server directory
+COPY /build /usr/share/nginx/html
 
-# Copy package.json to the working directory
-COPY package.json .
+# Copy the configuration file to Nginx's web server directory
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# Install dependencies
-RUN npm install 
+# Expose port 80 for the Nginx server
+# EXPOSE 80
 
-# Copy entire appliaction
-COPY . .
-
-# add node_modules to desired working directory in container
-ENV PATH /usr/src/app/node_modules/.bin:$PATH
-
-# Start app
-CMD ["npm", "start"]
-
-
-
-
-
-
-
-
-
-
+# Start Nginx when the container runs
+ENTRYPOINT [ "nginx", "-g", "daemon off;" ]
 
 
 
