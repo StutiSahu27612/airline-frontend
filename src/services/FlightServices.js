@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const FLIGHT_BASE_API_URL =  "http://localhost:9000/flight";
-const FLIGHT_BASE_API_URL =  "http://airline-app-container:9000/flight";
+const FLIGHT_BASE_API_URL =  "http://localhost:9000/flight";
+// const FLIGHT_BASE_API_URL =  "http://airline-app-container:9000/flight";
 
 class FlightServices{
 
