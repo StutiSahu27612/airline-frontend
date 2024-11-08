@@ -131,3 +131,139 @@ CORS must be properly configured on both frontend and backend
 The Cloud SQL instance should be properly secured with appropriate firewall rules
 Monitor your API usage and database connections
 This setup avoids the complexity of load balancers while still maintaining a secure and functional application architecture.
+
+
+
+
+
+
+
+
+
+# 1. Build your React app
+npm run build
+
+# 2. Remove existing files from bucket
+gsutil -m rm -r gs://airline-bucket-1/**
+
+# 3. Upload build files with correct content types
+gsutil -m cp -r build/* gs://airline-bucket-1/ -h "Cache-Control:no-cache"
+
+# 4. Make all objects public
+gsutil -m acl ch -r -u AllUsers:R gs://airline-bucket-1/*
+
+# 5. Set website configuration
+gsutil web set -m index.html -e index.html gs://airline-bucket-1
+Create a new cors.json file with more permissive settings:
+Apply the CORS configuration:
+gsutil cors set cors.json gs://airline-bucket-1
+Verify your bucket configuration:
+# Check bucket configuration
+gsutil web get gs://airline-bucket-1
+gsutil cors get gs://airline-bucket-1
+gsutil acl get gs://airline-bucket-1
+Make sure your backend (Cloud Run service) has the correct CORS configuration. Add these headers to your backend responses:
+@CrossOrigin(origins = "*")
+@RestController
+@RequestMapping("/flight")
+public class FlightController {
+    // ... your endpoints
+}
+After deploying these changes:
+Clear your browser cache
+Open Chrome DevTools (F12)
+Go to Network tab
+Check "Preserve log"
+Visit your site at https://storage.googleapis.com/airline-bucket-1
+Look for any CORS or network errors in the Console and Network tabs
+If you still see issues:
+Check if your backend URL is accessible (try it directly in browser)
+Verify your Cloud SQL instance is properly connected to Cloud Run
+Check Cloud Run logs for any backend errors
+Make sure your IAM permissions are correctly set up
+Remember to replace any hardcoded URLs with your actual URLs and adjust configurations according to your specific setup.
+i have done all above steps but still data is not colleted i m not getting errors..but is is possible to get data by like this?
+
+Yes, it's possible to get data this way, but let's debug the issue. Since you're not seeing any errors but also not getting data, let's modify the ListFlight component to add more detailed logging and error handling:
+import React, { Component } from 'react'
+import FlightServices from '../services/FlightServices'
+
+export default class ListFlight extends Component {
+    constructor(props){
+      super(props);
+      this.historyRef = React.createRef();
+      this.state = {
+        flights: [],
+        loading: true,
+        error: null
+      }
+      this.addFlight = this.addFlight.bind(this);
+      this.editFlight = this.editFlight.bind(this);
+      this.deleteFlight = this.deleteFlight.bind(this);
+    }
+
+    componentDidMount(){
+      console.log("Component mounted, calling loadFlights...");
+      this.loadFlights();
+    }
+
+    loadFlights() {
+      this.setState({ loading: true, error: null });
+      console.log("Making API call to fetch flights...");
+      
+      FlightServices.getAllFlights()
+        .then((res) => {
+          console.log("API Response received:", res);
+          if (res && res.data) {
+            console.log("Flights data:", res.data);
+            this.setState({
+              flights: res.data,
+              loading: false
+            });
+          } else {
+            console.error("Invalid response format:", res);
+            this.setState({
+              error: 'Invalid response format from server',
+              loading: false
+            });
+          }
+        })
+        .catch((error) => {
+          console.error('Detailed error:', {
+            message: error.message,
+            status: error.response?.status,
+            statusText: error.response?.statusText,
+            data: error.response?.data,
+            config: error.config
+          });
+          
+          this.setState({
+            error: `Failed to load flights: ${error.message}`,
+            loading: false
+          });
+        });
+    }
+
+    // ... rest of your component remains the same ...
+}
+And update FlightServices.js to add more logging:
+After making these changes:
+Rebuild and redeploy your app:
+npm run build
+gsutil -m cp -r build/* gs://airline-bucket-1/
+Open your browser's Developer Tools (F12)
+Go to the Network tab and check:
+Is the request to your backend being made?
+What's the response status?
+Are there any CORS errors?
+Go to the Console tab and look for the detailed logs we added
+Also, verify your backend is accessible:
+Open a new browser tab
+Try accessing https://airline-app-image-941806167555.us-central1.run.app/flight/
+You should see a JSON response with your flight data
+If you still don't see data:
+Is your backend service running?
+Is Cloud SQL connected properly?
+Does your backend have the correct CORS headers?
+Are there any firewall rules blocking the requests?
+Let me know what you see in the logs and I can help further diagnose the issue.
