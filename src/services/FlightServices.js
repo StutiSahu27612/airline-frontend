@@ -1,13 +1,13 @@
 import axios from "axios";
 
-const FLIGHT_BASE_API_URL =  "http://localhost:9000/flight";
-// const FLIGHT_BASE_API_URL =  "http://airline-app-container:9000/flight";
+// const FLIGHT_BASE_API_URL =  "http://localhost:9000/flight";
+const FLIGHT_BASE_API_URL =  "https://airline-app-image-941806167555.us-central1.run.app/flight";
 
 class FlightServices{
 
     getAllFlights(){
         return axios.get(FLIGHT_BASE_API_URL + "/");
-    }
+    }                                                                                                                                                               
 
     createFlight(flight){
         return axios.post(FLIGHT_BASE_API_URL+ "/",flight);
