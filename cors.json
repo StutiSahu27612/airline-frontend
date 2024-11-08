@@ -2,7 +2,15 @@
   {
     "origin": ["*"],
     "method": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    "responseHeader": ["Content-Type", "Authorization"],
+    "responseHeader": [
+      "Content-Type",
+      "Authorization",
+      "Content-Length",
+      "User-Agent",
+      "X-Requested-With",
+      "If-Modified-Since",
+      "Cache-Control"
+    ],
     "maxAgeSeconds": 3600
   }
 ] 
