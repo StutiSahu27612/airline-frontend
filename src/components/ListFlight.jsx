@@ -20,6 +20,8 @@ export default class ListFlight extends Component {
     FlightServices.getAllFlights().then((res)=>{
       this.setState({flights : res.data})
     });
+
+    console.log("Working");
   }
 
   addFlight(){
@@ -41,6 +43,7 @@ export default class ListFlight extends Component {
 
   render() {
     return (
+      
       <div>
         <h2 className='text-center mt-5'>Flight List</h2>
         <div className="row-3">
