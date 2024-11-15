@@ -1,29 +1,60 @@
-# Specify the runtime environment for the application
+################ For Standard Env ##################################################################################
+
+env: standard
 runtime: nodejs20
+service: app-engine-react-demo
 
-network:
-  name: projects/gcp-poc-11-438104/global/networks/my-vpc
-  instance_ip_mode: internal
-#  instance_tag: private-service
-  forwarded_ports:
-    - 9000/tcp
-
-manual_scaling:
-  instances: 1
-
-# Define the request handlers for the application
 handlers:
-  # Serve all static files with URLs ending with a file extension
-  - url: /(.*\..+)$  # Match any URL that ends with a file extension (e.g., .js, .css)
-    static_files: build/\1  # Serve the corresponding file from the 'build' directory
-    upload: build/(.*\..+)$  # Upload files matching this pattern to App Engine
+  - url: /static
+    static_dir: build/static
 
-  # Catch-all handler to serve index.html for all other routes
-  - url: /.*
-    static_files: build/index.html  # Serve the 'index.html' file for any unmatched routes
-    upload: build/index.html  # Upload 'index.html' to App Engine
-    
-##Resource Settings
+  - url: /(.*\.(json|ico|js))$
+    static_files: build/\1
+    upload: build/.*\.(json|ico|js)$
+
+  - url: .*
+    static_files: build/index.html
+    upload: build/index.html
+
+
+######### optional gae flex config (run from build folder) ########
+# runtime: nodejs
+# env: flex
+# 
+# config optimized for demo for cost savings (not production)
+# manual_scaling:
+#   instances: 1
+# resources:
+#   cpu: 1
+# memory_gb: 0.5
+# disk_size_gb: 10
+
+#################################################################################################################
+
+
+################ For Flexible Env ##################################################################################
+# runtime: nodejs20
+# env: flex
+
+# handlers:
+#   # Serve all static files with URLs ending with a file extension
+#   - url: /(.*\..+)$  # Match any URL that ends with a file extension (e.g., .js, .css)
+#     static_files: build/\1  # Serve the corresponding file from the 'build' directory
+#     upload: build/(.*\..+)$  # Upload files matching this pattern to App Engine
+
+#   # Catch-all handler to serve index.html for all other routes
+#   - url: /.*
+#     static_files: build/index.html  # Serve the 'index.html' file for any unmatched routes
+#     upload: build/index.html  # Upload 'index.html' to App Engine
+
+# network:
+#   name: projects/ashiph/global/networks/my-vpc
+#   instance_ip_mode: internal
+# #  instance_tag: private-service
+#   forwarded_ports:
+#     - 3306/tcp
+
+# #Resource Settings
 # resources:
 #   cpu: 1
 #   memory_gb: 1
@@ -33,7 +64,7 @@ handlers:
 #      volume_type: tmpfs
 #      size_gb: 0.5
 
-##  Only accept traffic from the internal VPC
+#  Only accept traffic from the internal VPC
 #network:
 #  instance_tag: private-service
 
@@ -43,5 +74,11 @@ handlers:
 #  CLOUD_SQL_PASSWORD: root
 #  CLOUD_SQL_DATABASE_NAME: user_management
 #  CLOUD_SQL_CONNECTION_NAME: ashiph:us-central1:gcp-mysql
+
+# vpc_access_connector:
+#   name: projects/ashiph/locations/us-central1/connectors/connector-user-management
+
+
+
   
 
