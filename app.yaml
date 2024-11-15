@@ -1,6 +1,16 @@
 # Specify the runtime environment for the application
 runtime: nodejs20
 
+network:
+  name: projects/gcp-poc-11-438104/global/networks/my-vpc
+  instance_ip_mode: internal
+#  instance_tag: private-service
+  forwarded_ports:
+    - 9000/tcp
+
+manual_scaling:
+  instances: 1
+
 # Define the request handlers for the application
 handlers:
   # Serve all static files with URLs ending with a file extension
@@ -12,3 +22,26 @@ handlers:
   - url: /.*
     static_files: build/index.html  # Serve the 'index.html' file for any unmatched routes
     upload: build/index.html  # Upload 'index.html' to App Engine
+    
+##Resource Settings
+# resources:
+#   cpu: 1
+#   memory_gb: 1
+#   disk_size_gb: 10
+#  volumes:
+#    - name: ramdisk1
+#      volume_type: tmpfs
+#      size_gb: 0.5
+
+##  Only accept traffic from the internal VPC
+#network:
+#  instance_tag: private-service
+
+
+#env_varaibles:
+#  CLOUD_SQL_USERNAME: root
+#  CLOUD_SQL_PASSWORD: root
+#  CLOUD_SQL_DATABASE_NAME: user_management
+#  CLOUD_SQL_CONNECTION_NAME: ashiph:us-central1:gcp-mysql
+  
+
