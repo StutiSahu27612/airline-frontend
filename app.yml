@@ -1,0 +1,14 @@
+# Specify the runtime environment for the application
+runtime: nodejs20
+
+# Define the request handlers for the application
+handlers:
+  # Serve all static files with URLs ending with a file extension
+  - url: /(.*\..+)$  # Match any URL that ends with a file extension (e.g., .js, .css)
+    static_files: build/\1  # Serve the corresponding file from the 'build' directory
+    upload: build/(.*\..+)$  # Upload files matching this pattern to App Engine
+
+  # Catch-all handler to serve index.html for all other routes
+  - url: /.*
+    static_files: build/index.html  # Serve the 'index.html' file for any unmatched routes
+    upload: build/index.html  # Upload 'index.html' to App Engine
