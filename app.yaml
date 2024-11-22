@@ -1,84 +1,56 @@
-################ For Standard Env ##################################################################################
+################ For Standard Env (Working)##################################################################################
 
-env: standard
-runtime: nodejs20
-service: app-engine-react-demo
-
-handlers:
-  - url: /static
-    static_dir: build/static
-
-  - url: /(.*\.(json|ico|js))$
-    static_files: build/\1
-    upload: build/.*\.(json|ico|js)$
-
-  - url: .*
-    static_files: build/index.html
-    upload: build/index.html
-
-
-######### optional gae flex config (run from build folder) ########
-# runtime: nodejs
-# env: flex
-# 
-# config optimized for demo for cost savings (not production)
-# manual_scaling:
-#   instances: 1
-# resources:
-#   cpu: 1
-# memory_gb: 0.5
-# disk_size_gb: 10
-
-#################################################################################################################
-
-
-################ For Flexible Env ##################################################################################
+# env: standard
 # runtime: nodejs20
-# env: flex
+# service: app-engine-react-demo
 
 # handlers:
-#   # Serve all static files with URLs ending with a file extension
-#   - url: /(.*\..+)$  # Match any URL that ends with a file extension (e.g., .js, .css)
-#     static_files: build/\1  # Serve the corresponding file from the 'build' directory
-#     upload: build/(.*\..+)$  # Upload files matching this pattern to App Engine
+#   - url: /static
+#     static_dir: build/static
 
-#   # Catch-all handler to serve index.html for all other routes
-#   - url: /.*
-#     static_files: build/index.html  # Serve the 'index.html' file for any unmatched routes
-#     upload: build/index.html  # Upload 'index.html' to App Engine
+#   - url: /(.*\.(json|ico|js))$
+#     static_files: build/\1
+#     upload: build/.*\.(json|ico|js)$
 
-# network:
-#   name: projects/ashiph/global/networks/my-vpc
-#   instance_ip_mode: internal
-# #  instance_tag: private-service
-#   forwarded_ports:
-#     - 3306/tcp
+#   - url: .*
+#     static_files: build/index.html
+#     upload: build/index.html
 
-# #Resource Settings
-# resources:
-#   cpu: 1
-#   memory_gb: 1
-#   disk_size_gb: 10
-#  volumes:
-#    - name: ramdisk1
-#      volume_type: tmpfs
-#      size_gb: 0.5
 
-#  Only accept traffic from the internal VPC
-#network:
+######### For Flexible Env (Working) #################################################
+runtime: nodejs
+env: flex
+service: app-engine-react-demo
+runtime_config:
+  operating_system: ubuntu22
+  # runtime_version: "20"
+manual_scaling:
+  instances: 1
+
+network:
+  name: projects/gcp-poc-11-438104/global/networks/my-vpc
+  # instance_ip_mode: internal
 #  instance_tag: private-service
+  subnetwork_name: subnet1-my-vpc
+  # forwarded_ports:
+  #   - 9000/tcp
 
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10
+  # volumes:
+  # - name: ramdisk1
+  #   volume_type: tmpfs
+  #   size_gb: 0.5
 
-#env_varaibles:
-#  CLOUD_SQL_USERNAME: root
-#  CLOUD_SQL_PASSWORD: root
-#  CLOUD_SQL_DATABASE_NAME: user_management
-#  CLOUD_SQL_CONNECTION_NAME: ashiph:us-central1:gcp-mysql
+# automatic_scaling:
+#   min_num_instances: 1
+#   max_num_instances: 15
+#   cool_down_period_sec: 180
+#   cpu_utilization:
+#     target_utilization: 0.6
+#   target_concurrent_requests: 100
+#################################################################################################################
 
-# vpc_access_connector:
-#   name: projects/ashiph/locations/us-central1/connectors/connector-user-management
-
-
-
-  
 
