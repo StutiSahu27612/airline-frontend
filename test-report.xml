@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testExecutions version="1">
+  <file path="C:\Users\Administrator\Desktop\Cursor-demo\airline-frontend\src\services\__tests__\FlightServices.test.js">
+  </file>
+  <file path="C:\Users\Administrator\Desktop\Cursor-demo\airline-frontend\src\components\__tests__\UpdateFlight.test.js">
+  </file>
+  <file path="C:\Users\Administrator\Desktop\Cursor-demo\airline-frontend\src\components\__tests__\ListFlight.test.js">
+  </file>
+  <file path="C:\Users\Administrator\Desktop\Cursor-demo\airline-frontend\src\components\__tests__\AddFlight.test.js">
+  </file>
+  <file path="C:\Users\Administrator\Desktop\Cursor-demo\airline-frontend\src\App.test.js">
+  </file>
+</testExecutions>

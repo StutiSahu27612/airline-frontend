@@ -62,11 +62,10 @@ class AddFlight extends Component {
                     <h1>Add Flight</h1>
                     <div className="card-body">
                         <form className=''>
-                            <div class="mb-3">
-                                <label for="flightName" class="form-label">Flight Name</label>
-                                {/* <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" /> */}
-                                <select class="form-select" name='flightName' id="flightName" value={this.state.flightName} onChange={this.changeFlightNameHandler} required>
-                                    <option selected>Select Airline..</option>
+                            <div className="mb-3">
+                                <label htmlFor="flightName" className="form-label">Flight Name</label>
+                                <select className="form-select" id="flightName" name='flightName' value={this.state.flightName} onChange={this.changeFlightNameHandler} required>
+                                    <option value="">Select Airline..</option>
                                     <option value="Vistara">Vistara</option>
                                     <option value="Air-Emirates">Air-Emirates</option>
                                     <option value="Qatar Airways">Qatar Airways</option>
@@ -74,9 +73,9 @@ class AddFlight extends Component {
                                     <option value="Indigo">Indigo</option>
                                 </select>
                             </div>
-                            <div class="mb-3">
-                                <label for="source" class="form-label">Source</label>
-                                <select class="form-select" id="source" name='source' value={this.state.source} onChange={this.changeSourceHandler} required>
+                            <div className="mb-3">
+                                <label htmlFor="source" className="form-label">Source</label>
+                                <select className="form-select" id="source" name='source' value={this.state.source} onChange={this.changeSourceHandler} required>
                                     <option selected>Select Source..</option>
                                     <option value="Pune">Pune</option>
                                     <option value="Mumbai">Mumbai</option>
@@ -85,9 +84,9 @@ class AddFlight extends Component {
                                     <option value="Kolkata">Kolkata</option>
                                 </select>
                             </div>
-                            <div class="mb-3">
-                                <label for="destination" class="form-label">Destination</label>
-                                <select class="form-select" id="destination" name='destination' value={this.state.destination} onChange={this.changeDestinationHandler} required>
+                            <div className="mb-3">
+                                <label htmlFor="destination" className="form-label">Destination</label>
+                                <select className="form-select" id="destination" name='destination' value={this.state.destination} onChange={this.changeDestinationHandler} required>
                                     <option selected>Select Destination..</option>
                                     <option value="Chicago">Chicago</option>
                                     <option value="New-York">New-York</option>
@@ -96,13 +95,21 @@ class AddFlight extends Component {
                                     <option value="Dubai">Dubai</option>
                                 </select>
                             </div>
-                            <div class="mb-3">
-                                <label for="ticketPrice" class="form-label">Ticket Price</label><br />
-                                <input type="number" class="form-control" name='ticketPrice' value={this.state.ticketPrice} onChange={this.changeTicketPriceHandler}  required/>
+                            <div className="mb-3">
+                                <label htmlFor="ticketPrice" className="form-label">Ticket Price</label>
+                                <input 
+                                    type="number" 
+                                    className="form-control" 
+                                    id="ticketPrice"
+                                    name="ticketPrice" 
+                                    value={this.state.ticketPrice} 
+                                    onChange={this.changeTicketPriceHandler}  
+                                    required
+                                />
                             </div>
                             
-                            <button type="submit" class="btn btn-primary" onClick={this.saveFlight}>Add</button>
-                            <button type="reset" class="btn btn-danger mx-3" onClick={this.cancel.bind(this)}>Cancel</button>
+                            <button type="submit" className="btn btn-primary" onClick={this.saveFlight}>Add</button>
+                            <button type="reset" className="btn btn-danger mx-3" onClick={this.cancel.bind(this)}>Cancel</button>
                         </form>
                     </div>
                </div>

@@ -1,0 +1,186 @@
+AIRLINE BOOKING SYSTEM - TECHNICAL DOCUMENTATION
+==============================================
+
+1. APPLICATION OVERVIEW
+----------------------
+Technology Stack:
+* Frontend: React 18.2.0
+* Routing: React Router DOM 6.21.1
+* HTTP Client: Axios 1.6.2
+* Testing: Jest + React Testing Library
+* Code Analysis: SonarQube
+* Styling: Bootstrap
+
+Key Features:
+* Flight listing
+* Add new flights
+* Update existing flights
+* Delete flights
+
+2. SETUP INSTRUCTIONS
+--------------------
+Prerequisites:
+* Node.js (v14+)
+* npm (v6+)
+* SonarQube Server
+
+Installation Steps:
+1. Clone repository: git clone <repository-url>
+2. Navigate to directory: cd airline-frontend
+3. Install dependencies: npm install
+
+3. RUNNING THE APPLICATION
+-------------------------
+Development Server:
+* Start app: npm start
+* Access at: http://localhost:3000
+
+Production Build:
+* Create build: npm run build
+
+4. TESTING GUIDE
+---------------
+Test Commands:
+* Run all tests: npm test
+* Run with coverage: npm run test:coverage
+* Watch mode: npm run test:watch
+
+Test File Structure:
+src/
+├── components/__tests__/
+│   ├── AddFlight.test.js
+│   ├── ListFlight.test.js
+│   ├── UpdateFlight.test.js
+│   ├── Header.test.js
+│   └── Welcome.test.js
+└── services/__tests__/
+    └── FlightServices.test.js
+
+5. REPORTS AND COVERAGE
+----------------------
+Coverage Reports Location:
+coverage/
+├── lcov.info              (SonarQube coverage report)
+├── coverage-final.json    (JSON format coverage)
+├── clover.xml            (XML format coverage)
+└── lcov-report/          (HTML coverage report)
+    └── index.html        (View in browser)
+
+Test Execution Report:
+coverage/test-report.xml   (SonarQube test execution report)
+
+Coverage Thresholds:
+* Branches: 30%
+* Functions: 30%
+* Lines: 30%
+* Statements: 30%
+
+6. SONARQUBE INTEGRATION
+-----------------------
+Configuration Files:
+* sonar-project.js
+* sonar-project.properties
+
+Running Analysis:
+1. Generate coverage: npm run test:coverage
+2. Run analysis: npm run sonar
+
+SonarQube Setup:
+* Server URL: http://localhost:9000
+* Update token in sonar-project.js
+
+7. PROJECT STRUCTURE
+-------------------
+src/
+├── components/
+│   ├── AddFlight.jsx    (Add flight form)
+│   ├── ListFlight.jsx   (Flight listing page)
+│   ├── UpdateFlight.jsx (Update flight form)
+│   ├── Header.jsx       (Navigation header)
+│   └── Welcome.jsx      (Welcome page)
+├── services/
+│   └── FlightServices.js
+├── App.js
+└── setupTests.js
+
+8. API ENDPOINTS
+---------------
+Base URL: http://localhost:8080/api/v1/flights
+
+* GET    /flights         - Get all flights
+* POST   /flights         - Create new flight
+* GET    /flights/{id}    - Get flight by ID
+* PUT    /flights/{id}    - Update flight
+* DELETE /flights/{id}    - Delete flight
+
+9. AVAILABLE SCRIPTS
+-------------------
+* npm start          - Start development server
+* npm build          - Create production build
+* npm test          - Run tests
+* npm run test:coverage - Run tests with coverage
+* npm run test:watch   - Run tests in watch mode
+* npm run sonar       - Run SonarQube analysis
+
+10. TROUBLESHOOTING
+------------------
+Test Failures:
+* Check dependencies installation
+* Verify setupTests.js configuration
+* Check Router mocks
+* Run: npm install
+
+Coverage Issues:
+* Run: npm run test:coverage
+* Check coverage thresholds
+* View report: coverage/lcov-report/index.html
+
+SonarQube Issues:
+* Verify server is running
+* Check token and URL
+* Ensure reports are generated
+
+Router Issues:
+* Check MemoryRouter in tests
+* Verify Router mocks
+* Check App.js routes
+
+11. DEBUG COMMANDS
+-----------------
+* Clear Jest cache: npx jest --clearCache
+* Run specific test: npm test -- path/to/test/file.test.js
+* Update snapshots: npm test -- -u
+
+12. ENVIRONMENT SETUP
+--------------------
+Environment Variables:
+REACT_APP_API_URL=http://localhost:8080/api/v1
+
+13. MAINTENANCE
+--------------
+Regular Tasks:
+* Update dependencies
+* Monitor test execution times
+* Clean test data
+* Review coverage reports
+
+Code Quality:
+* Run SonarQube before merging
+* Address code smells
+* Maintain coverage thresholds
+
+14. SUPPORT
+-----------
+Debug Information:
+* Check: src/components/__tests__/debug.log
+* Review Jest test output
+* Verify SonarQube logs
+
+For additional support:
+* Review test failure messages
+* Check SonarQube dashboard
+* Consult React Testing Library docs
+
+==============================================
+Last Updated: [Current Date]
+Version: 1.0 

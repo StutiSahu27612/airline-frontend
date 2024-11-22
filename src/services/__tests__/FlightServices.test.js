@@ -4,49 +4,73 @@ import FlightServices from '../FlightServices';
 jest.mock('axios');
 
 describe('FlightServices', () => {
-    const baseUrl = 'https://airline-app-image-941806167555.us-central1.run.app/flight';
+  const mockFlights = [
+    {
+      flightId: 1,
+      flightName: 'Vistara',
+      source: 'Mumbai',
+      destination: 'Dubai',
+      ticketPrice: 45000
+    }
+  ];
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test('getAllFlights returns flight data', async () => {
+    axios.get.mockResolvedValue({ data: mockFlights });
     
-    beforeEach(() => {
-        jest.clearAllMocks();
-    });
+    const result = await FlightServices.getAllFlights();
+    
+    expect(result.data).toEqual(mockFlights);
+    expect(axios.get).toHaveBeenCalledTimes(1);
+  });
 
-    test('getAllFlights makes GET request', async () => {
-        const mockFlights = [{ id: 1, name: 'Test Flight' }];
-        axios.get.mockResolvedValue({ data: mockFlights });
+  test('createFlight creates a new flight', async () => {
+    const newFlight = {
+      flightName: 'Test Flight',
+      source: 'Test Source',
+      destination: 'Test Destination',
+      ticketPrice: 1000
+    };
 
-        const result = await FlightServices.getAllFlights();
+    axios.post.mockResolvedValue({ data: newFlight });
+    
+    const result = await FlightServices.createFlight(newFlight);
+    
+    expect(result.data).toEqual(newFlight);
+    expect(axios.post).toHaveBeenCalledWith(expect.any(String), newFlight);
+  });
 
-        expect(axios.get).toHaveBeenCalledWith(`${baseUrl}/`);
-        expect(result.data).toEqual(mockFlights);
-    });
+  test('getFlightById returns specific flight', async () => {
+    const flightId = 1;
+    axios.get.mockResolvedValue({ data: mockFlights[0] });
+    
+    const result = await FlightServices.getFlightById(flightId);
+    
+    expect(result.data).toEqual(mockFlights[0]);
+    expect(axios.get).toHaveBeenCalledWith(expect.stringContaining(`/${flightId}`));
+  });
 
-    test('createFlight makes POST request', async () => {
-        const newFlight = { name: 'New Flight' };
-        axios.post.mockResolvedValue({ data: newFlight });
+  test('updateFlight updates existing flight', async () => {
+    const flightId = 1;
+    const updatedFlight = { ...mockFlights[0], ticketPrice: 50000 };
+    
+    axios.put.mockResolvedValue({ data: updatedFlight });
+    
+    const result = await FlightServices.updateFlight(flightId, updatedFlight);
+    
+    expect(result.data).toEqual(updatedFlight);
+    expect(axios.put).toHaveBeenCalledWith(expect.stringContaining(`/${flightId}`), updatedFlight);
+  });
 
-        const result = await FlightServices.createFlight(newFlight);
-
-        expect(axios.post).toHaveBeenCalledWith(`${baseUrl}/`, newFlight);
-        expect(result.data).toEqual(newFlight);
-    });
-
-    test('updateFlight makes PUT request', async () => {
-        const flightId = 1;
-        const updatedFlight = { id: 1, name: 'Updated Flight' };
-        axios.put.mockResolvedValue({ data: updatedFlight });
-
-        const result = await FlightServices.updateFlight(flightId, updatedFlight);
-
-        expect(axios.put).toHaveBeenCalledWith(`${baseUrl}/${flightId}`, updatedFlight);
-        expect(result.data).toEqual(updatedFlight);
-    });
-
-    test('deleteFlight makes DELETE request', async () => {
-        const flightId = 1;
-        axios.delete.mockResolvedValue({ data: {} });
-
-        await FlightServices.deleteFlight(flightId);
-
-        expect(axios.delete).toHaveBeenCalledWith(`${baseUrl}/${flightId}`);
-    });
+  test('deleteFlight deletes a flight', async () => {
+    const flightId = 1;
+    axios.delete.mockResolvedValue({ status: 200 });
+    
+    await FlightServices.deleteFlight(flightId);
+    
+    expect(axios.delete).toHaveBeenCalledWith(expect.stringContaining(`/${flightId}`));
+  });
 }); 

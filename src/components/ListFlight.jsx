@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import FlightServices from '../services/FlightServices'
 
-
 export default class ListFlight extends Component {
 
     constructor(props){
@@ -18,10 +17,8 @@ export default class ListFlight extends Component {
 
   componentDidMount(){
     FlightServices.getAllFlights().then((res)=>{
-      this.setState({flights : res.data})
+      this.setState({flights : res.data});
     });
-
-    console.log("Working");
   }
 
   addFlight(){
@@ -72,8 +69,8 @@ export default class ListFlight extends Component {
                     <td>{flight.destination}</td>
                     <td>{flight.ticketPrice}</td>
                     <td>
-                      <button class="btn btn-warning" onClick={(e)=> this.editFlight(flight.flightId)}>Update</button>
-                      <button class="btn btn-danger ms-2" onClick={(e)=> this.deleteFlight(flight.flightId)}>Delete</button>
+                      <button className="btn btn-warning" onClick={(e)=> this.editFlight(flight.flightId)}>Update</button>
+                      <button className="btn btn-danger ms-2" onClick={(e)=> this.deleteFlight(flight.flightId)}>Delete</button>
                     </td>
                   </tr>
                 )
