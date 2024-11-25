@@ -16,8 +16,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --coverage --watchAll=false --testResultsProcessor=jest-sonar-reporter",
-    "test:coverage": "react-scripts test --coverage --watchAll=false --coverageDirectory=coverage --testResultsProcessor=jest-sonar-reporter",
+    "test": "react-scripts test --coverage --watchAll=false",
+    "test:coverage": "react-scripts test --coverage --watchAll=false",
     "test:watch": "react-scripts test",
     "eject": "react-scripts eject",
     "sonar": "node sonar-project.js"
@@ -36,7 +36,6 @@
       "text",
       "lcov",
       "html",
-      "xml",
       "json"
     ],
     "coverageThreshold": {
@@ -52,8 +51,7 @@
     ],
     "moduleNameMapper": {
       "^axios$": "<rootDir>/node_modules/axios/dist/axios.js"
-    },
-    "testResultsProcessor": "jest-sonar-reporter"
+    }
   },
   "jestSonar": {
     "reportPath": "coverage",
